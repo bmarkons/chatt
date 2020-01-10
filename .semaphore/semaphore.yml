@@ -1,16 +1,19 @@
 version: v1.0
-name: Java
+name: Run in Docker
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+  containers:
+    - name: main
+      image: 'semaphoreci/node:10' # Your primary container where commands are run
+    - name: database
+      image: 'postgres:11'
+
 blocks:
-  - name: Ant
+  - name: Hello World
     task:
       jobs:
-        - name: Build & Test
+        - name: Test job
           commands:
-            - checkout
-            - sem-version java 1.8
-            - ant -noinput -buildfile build.xml
-            - ant test
+            - checkout # Check out the code
+            - echo "Hello from my 'main' container"
